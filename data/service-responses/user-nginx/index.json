@@ -1,0 +1,10 @@
+{
+  "service": "user-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8080,
+  "users": {
+    "total": 1250,
+    "active_today": 342
+  }
+}

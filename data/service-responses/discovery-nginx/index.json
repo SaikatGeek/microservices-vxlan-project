@@ -1,0 +1,33 @@
+{
+  "service": "discovery-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8500,
+  "note": "Static list. Every container has a fixed IP, so this list stays true.",
+  "services": [
+    { "name": "gateway-nginx", "port": 80, "instances": [
+      { "dc": "DC1", "ip": "10.20.1.10", "role": "primary" },
+      { "dc": "DC2", "ip": "10.30.1.10", "role": "backup" },
+      { "dc": "DC3", "ip": "10.40.1.10", "role": "standby" } ] },
+    { "name": "user-nginx", "port": 8080, "instances": [
+      { "dc": "DC1", "ip": "10.20.2.10", "role": "primary" },
+      { "dc": "DC3", "ip": "10.40.2.10", "role": "standby" } ] },
+    { "name": "catalog-nginx", "port": 8081, "instances": [
+      { "dc": "DC1", "ip": "10.20.2.11", "role": "primary" },
+      { "dc": "DC3", "ip": "10.40.2.11", "role": "standby" } ] },
+    { "name": "order-nginx", "port": 8082, "instances": [
+      { "dc": "DC1", "ip": "10.20.2.12", "role": "primary" },
+      { "dc": "DC2", "ip": "10.30.2.12", "role": "replica" },
+      { "dc": "DC3", "ip": "10.40.2.12", "role": "standby" } ] },
+    { "name": "payment-nginx", "port": 8083, "instances": [
+      { "dc": "DC2", "ip": "10.30.2.10", "role": "primary" },
+      { "dc": "DC3", "ip": "10.40.2.13", "role": "standby" } ] },
+    { "name": "notify-nginx", "port": 8084, "instances": [
+      { "dc": "DC2", "ip": "10.30.2.11", "role": "primary" },
+      { "dc": "DC3", "ip": "10.40.2.14", "role": "standby" } ] },
+    { "name": "analytics-nginx", "port": 8085, "instances": [
+      { "dc": "DC3", "ip": "10.40.2.15", "role": "primary" } ] },
+    { "name": "discovery-nginx", "port": 8500, "instances": [
+      { "dc": "DC3", "ip": "10.40.2.16", "role": "primary" } ] }
+  ]
+}

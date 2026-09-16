@@ -1,0 +1,8 @@
+{
+  "service": "notify-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8084,
+  "channels": ["email", "sms"],
+  "queued": 12
+}

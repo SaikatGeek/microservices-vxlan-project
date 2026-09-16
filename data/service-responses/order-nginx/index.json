@@ -1,0 +1,10 @@
+{
+  "service": "order-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8082,
+  "orders": {
+    "open": 18,
+    "shipped_today": 57
+  }
+}

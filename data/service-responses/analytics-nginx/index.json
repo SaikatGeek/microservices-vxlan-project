@@ -1,0 +1,11 @@
+{
+  "service": "analytics-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8085,
+  "last_7_days": {
+    "visits": [410, 385, 502, 467, 530, 610, 575],
+    "orders": [38, 35, 47, 44, 51, 60, 57]
+  },
+  "top_products": [101, 102]
+}

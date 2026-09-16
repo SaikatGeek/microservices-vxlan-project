@@ -1,0 +1,23 @@
+# catalog-nginx — sample product data, port 8081
+#
+# Build from the project root, so configs/ and data/ are both in reach:
+#   docker build -f dockerfiles/Dockerfile.catalog-nginx -t catalog-nginx .
+# Run with the datacenter name:
+#   docker run -d -e DC=DC1 catalog-nginx
+FROM nginx:alpine
+
+# Remove nginx's own welcome site, so only our files are served.
+RUN rm -f /etc/nginx/conf.d/default.conf && rm -rf /usr/share/nginx/html/*
+
+COPY configs/nginx/catalog-nginx.conf /etc/nginx/conf.d/catalog-nginx.conf
+COPY data/service-responses/catalog-nginx/ /usr/share/nginx/html/
+
+# Fills in the datacenter name when the container starts.
+COPY configs/nginx/40-set-dc.sh /docker-entrypoint.d/40-set-dc.sh
+RUN chmod +x /docker-entrypoint.d/40-set-dc.sh
+
+EXPOSE 8081
+
+# Docker calls /health every 10s. Three misses in a row = unhealthy.
+HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget -q -O /dev/null http://127.0.0.1:8081/health || exit 1

@@ -1,0 +1,11 @@
+{
+  "service": "catalog-nginx",
+  "status": "up",
+  "datacenter": "__DC__",
+  "port": 8081,
+  "products": [
+    { "id": 101, "name": "Wireless Mouse", "price": 19.99, "in_stock": true },
+    { "id": 102, "name": "USB-C Cable", "price": 9.49, "in_stock": true },
+    { "id": 103, "name": "Laptop Stand", "price": 34.00, "in_stock": false }
+  ]
+}
