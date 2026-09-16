@@ -7,6 +7,7 @@
 #   ./deploy-services.sh 1 remove    delete the containers
 #   ./deploy-services.sh 1 status    state and health of each container
 #   ./deploy-services.sh 1 logs      last lines of each container's log
+#   ./deploy-services.sh 1 list      service and IP, one per line (used by the tests)
 #
 # Node 1 owns DC1, node 2 owns DC2, node 3 owns DC3.
 # The docker network (dc1-net and so on) is made by overlay-up.sh on the
@@ -18,7 +19,7 @@ DC="${1:-}"
 ACTION="${2:-deploy}"
 
 usage() {
-    sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//' >&2
+    sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//' >&2
     exit 1
 }
 
@@ -167,5 +168,6 @@ case "$ACTION" in
     remove) each rm -f ;;
     status) status ;;
     logs)   logs ;;
+    list)   awk 'NF { print $1, $2 }' <<< "$PLAN" ;;
     *)      usage ;;
 esac
