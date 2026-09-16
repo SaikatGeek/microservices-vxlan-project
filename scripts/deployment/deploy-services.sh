@@ -1,6 +1,7 @@
 #!/bin/bash
 # Manages one datacenter's containers. Run it ON the node that owns the DC.
 #
+#   ./deploy-services.sh 1 build     build the images this DC needs
 #   ./deploy-services.sh 1 deploy    build the images, then (re)start every container
 #   ./deploy-services.sh 1 stop      stop the containers, keep them
 #   ./deploy-services.sh 1 start     start stopped containers again
@@ -19,7 +20,7 @@ DC="${1:-}"
 ACTION="${2:-deploy}"
 
 usage() {
-    sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//' >&2
+    sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//' >&2
     exit 1
 }
 
@@ -84,6 +85,18 @@ image() {
     esac
 }
 
+build() {
+    local svc rest
+
+    echo "=== DC$DC: build images ==="
+    while read -r svc rest; do
+        [ -n "$svc" ] || continue
+        case "$svc" in *-stub) continue ;; esac
+        echo "  build  $svc"
+        $DOCKER build -q -f "$ROOT/dockerfiles/Dockerfile.$svc" -t "$svc" "$ROOT" >/dev/null
+    done <<< "$PLAN"
+}
+
 deploy() {
     local svc ip mem res cpus name
 
@@ -92,13 +105,7 @@ deploy() {
         exit 1
     fi
 
-    echo "=== DC$DC: build images ==="
-    while read -r svc ip mem res cpus; do
-        [ -n "$svc" ] || continue
-        case "$svc" in *-stub) continue ;; esac
-        echo "  build  $svc"
-        $DOCKER build -q -f "$ROOT/dockerfiles/Dockerfile.$svc" -t "$svc" "$ROOT" >/dev/null
-    done <<< "$PLAN"
+    build
 
     echo "=== DC$DC: start containers on $NET ==="
     while read -r svc ip mem res cpus; do
@@ -162,6 +169,7 @@ logs() {
 }
 
 case "$ACTION" in
+    build)  build ;;
     deploy) deploy ;;
     stop)   each stop ;;
     start)  each start ;;
