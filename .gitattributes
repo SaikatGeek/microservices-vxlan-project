@@ -1,0 +1,6 @@
+# The scripts run on Linux. A Windows line ending breaks a script before its
+# first line ("#!/bin/bash\r: required file not found"), so keep every text
+# file LF, even in a Windows checkout.
+* text=auto eol=lf
+
+*.png binary
