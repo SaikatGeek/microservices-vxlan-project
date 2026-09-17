@@ -128,9 +128,11 @@ To watch whether packets leave at all:
 sudo tcpdump -ni any udp port 4789
 ```
 
-Remember that a reply between two datacenters comes back on a different tunnel than
-the request. Watching a single `vxlanN` device shows only half the conversation, so
-always use `-i any`.
+A request from DC1 to DC3 travels on `vni 400`, the tunnel of the DC it is going to,
+and the reply comes back on the same one. Inside the packet, the source is not the
+calling container but the node's own address on that bridge (for example `10.40.1.11`),
+because Docker masquerades container traffic that leaves its own network. So when
+matching packets to containers, look for the node's bridge addresses too.
 
 ## Services do not work
 

@@ -200,15 +200,23 @@ is what creates them. No address, no route.
    so it sends the packet to its gateway, `10.20.1.1`, which is `br-dc1` on node 1.
 2. Node 1 looks up `10.40.2.15`, finds `10.40.0.0/16 dev br-dc3`, and passes the
    packet to `br-dc3`. **The datacenter changes here, inside node 1.**
-3. `vxlan400` is attached to `br-dc3`, so the frame is wrapped in UDP port 4789 and
+3. On the way out, Docker's NAT rule for `dc1-net` changes the source address. Docker
+   masquerades traffic from `10.20.0.0/16` that leaves through any interface other than
+   `br-dc1`, so `10.20.2.10` becomes node 1's own address on `br-dc3`, `10.40.1.11`.
+4. `vxlan400` is attached to `br-dc3`, so the frame is wrapped in UDP port 4789 and
    sent from `10.0.1.10` to `10.0.3.10`.
-4. AWS delivers it like any other packet inside the VPC.
-5. Node 3 unwraps it on its `vxlan400`, and `br-dc3` hands it to `dc3-analytics-nginx`.
+5. AWS delivers it like any other packet inside the VPC.
+6. Node 3 unwraps it on its `vxlan400`, and `br-dc3` hands it to `dc3-analytics-nginx`.
+   The container sees the caller as `10.40.1.11`.
 
-The reply takes a different path. The DC3 container sends it to its own gateway,
-`10.40.1.1` on node 3. Node 3 routes it to its `br-dc1`, and it travels back over
-**vxlan200**. So a request goes out on one tunnel and the reply returns on another.
-When watching with `tcpdump`, use `-i any` to see both halves.
+The reply goes to `10.40.1.11`, which is on DC3's own network, so it comes straight
+back over the **same tunnel**, `vxlan400`, and node 1 turns the address back into
+`10.20.2.10`.
+
+The capture below was taken on node 1 while the DC1 gateway called the payment service
+in DC2. Both directions are `vni 300`, and the inner source is `10.30.1.11`, node 1's
+address on `br-dc2`, not the gateway container's `10.20.1.10`. The TCP handshake also
+shows `mss 1410`: the 1450 MTU minus 40 bytes of IP and TCP headers.
 
 ![tcpdump showing VXLAN packets](../docs/screenshots/12-tcpdump-vxlan.png)
 
