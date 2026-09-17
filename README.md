@@ -19,24 +19,7 @@ clicks, no Terraform, no Kubernetes.
 
 ## The big picture
 
-```
-                       AWS VPC 10.0.0.0/16  (one subnet per AZ)
-
-   ap-southeast-1a             ap-southeast-1b             ap-southeast-1c
- +-------------------+       +-------------------+       +-------------------+
- |  dc1-node         |       |  dc2-node         |       |  dc3-node         |
- |  10.0.1.10        |       |  10.0.2.10        |       |  10.0.3.10        |
- |                   |       |                   |       |                   |
- |  DC1 containers   |       |  DC2 containers   |       |  DC3 containers   |
- |  10.20.x.x        |       |  10.30.x.x        |       |  10.40.x.x        |
- |                   |       |                   |       |                   |
- |  br-dc1  vxlan200 |=======|  br-dc1  vxlan200 |=======|  br-dc1  vxlan200 |
- |  br-dc2  vxlan300 |=======|  br-dc2  vxlan300 |=======|  br-dc2  vxlan300 |
- |  br-dc3  vxlan400 |=======|  br-dc3  vxlan400 |=======|  br-dc3  vxlan400 |
- +-------------------+       +-------------------+       +-------------------+
-
-   ===  VXLAN over UDP 4789, full mesh (node 1 also links straight to node 3)
-```
+![Network topology](architecture/diagrams/network-topology.svg)
 
 AWS only sees normal UDP traffic between the three node IPs. The container
 traffic (`10.20.x.x`, `10.30.x.x`, `10.40.x.x`) is packed inside it.
@@ -85,6 +68,8 @@ make cleanup-infrastructure    # deletes every AWS resource this project made
 | discovery-nginx | 8500 | | | primary |
 
 Each datacenter also has a `db-stub` and a `cache-stub` for the data tier.
+
+![Service architecture](architecture/diagrams/service-architecture.svg)
 
 How the services work and fail over: [architecture/service-architecture.md](architecture/service-architecture.md).
 One page per service: [docs/services/](docs/services/).

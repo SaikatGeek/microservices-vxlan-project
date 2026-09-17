@@ -59,6 +59,8 @@ answered, not the primary.
 
 ## The gateway and load balancing
 
+![Service architecture](diagrams/service-architecture.svg)
+
 The gateway does not answer requests by itself. It looks at the path and passes the
 request on:
 

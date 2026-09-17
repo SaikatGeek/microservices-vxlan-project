@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img">
+<title>Service architecture: gateway routing and failover</title>
+<desc>The gateway sends each path to its normal servers in DC1 or DC2, shares orders between DC1 and DC2, and falls back to the DC3 standby copy when the normal servers are down. Analytics and discovery run only in DC3.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#5F5E5A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="1100" height="660" fill="#FFFFFF"/>
+<text x="40" y="38" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#2C2C2A" text-anchor="start">Service architecture: gateway routing and failover</text>
+<text x="40" y="60" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#5F5E5A" text-anchor="start">The same gateway config runs in DC1, DC2 and DC3. Every container has a fixed IP, so these addresses are true everywhere.</text>
+<text x="360" y="92" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#5F5E5A" text-anchor="middle">path</text>
+<text x="610" y="92" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#5F5E5A" text-anchor="middle">normal servers</text>
+<text x="940" y="92" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#5F5E5A" text-anchor="middle">backup (only if all are down)</text>
+<rect x="40" y="250" width="200" height="124" rx="8" fill="#FFFFFF" stroke="#2C2C2A" stroke-width="1.6"/>
+<text x="140" y="282" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#2C2C2A" text-anchor="middle">gateway-nginx</text>
+<text x="140" y="302" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">port 80</text>
+<text x="140" y="322" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">DC1 primary · DC2 backup</text>
+<text x="140" y="340" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">DC3 standby</text>
+<text x="140" y="360" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">adds X-Served-By header</text>
+<line x1="240" y1="312" x2="298" y2="126" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="104" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="131" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/users/</text>
+<line x1="420" y1="126" x2="456" y2="126" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="104" width="300" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.4"/>
+<text x="610.0" y="123" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0C447C" text-anchor="middle">DC1</text>
+<text x="610.0" y="139" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#0C447C" text-anchor="middle">10.20.2.10:8080</text>
+<line x1="762" y1="126" x2="816" y2="126" stroke="#5F5E5A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="789" y="119" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">if down</text>
+<rect x="820" y="104" width="240" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="940" y="123" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3 standby</text>
+<text x="940" y="139" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.10:8080</text>
+<line x1="240" y1="312" x2="298" y2="196" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="174" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="201" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/catalog/</text>
+<line x1="420" y1="196" x2="456" y2="196" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="174" width="300" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.4"/>
+<text x="610.0" y="193" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0C447C" text-anchor="middle">DC1</text>
+<text x="610.0" y="209" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#0C447C" text-anchor="middle">10.20.2.11:8081</text>
+<line x1="762" y1="196" x2="816" y2="196" stroke="#5F5E5A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="789" y="189" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">if down</text>
+<rect x="820" y="174" width="240" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="940" y="193" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3 standby</text>
+<text x="940" y="209" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.11:8081</text>
+<line x1="240" y1="312" x2="298" y2="266" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="244" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="271" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/orders/</text>
+<line x1="420" y1="266" x2="456" y2="266" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="244" width="145" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.4"/>
+<text x="532.5" y="263" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0C447C" text-anchor="middle">DC1</text>
+<text x="532.5" y="279" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#0C447C" text-anchor="middle">10.20.2.12:8082</text>
+<rect x="615" y="244" width="145" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.4"/>
+<text x="687.5" y="263" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#085041" text-anchor="middle">DC2</text>
+<text x="687.5" y="279" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#085041" text-anchor="middle">10.30.2.12:8082</text>
+<text x="610" y="304" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">shared in turns (round robin)</text>
+<line x1="762" y1="266" x2="816" y2="266" stroke="#5F5E5A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="789" y="259" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">if down</text>
+<rect x="820" y="244" width="240" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="940" y="263" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3 standby</text>
+<text x="940" y="279" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.12:8082</text>
+<line x1="240" y1="312" x2="298" y2="336" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="314" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="341" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/payments/</text>
+<line x1="420" y1="336" x2="456" y2="336" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="314" width="300" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.4"/>
+<text x="610.0" y="333" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#085041" text-anchor="middle">DC2</text>
+<text x="610.0" y="349" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#085041" text-anchor="middle">10.30.2.10:8083</text>
+<line x1="762" y1="336" x2="816" y2="336" stroke="#5F5E5A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="789" y="329" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">if down</text>
+<rect x="820" y="314" width="240" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="940" y="333" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3 standby</text>
+<text x="940" y="349" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.13:8083</text>
+<line x1="240" y1="312" x2="298" y2="406" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="384" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="411" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/notify/</text>
+<line x1="420" y1="406" x2="456" y2="406" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="384" width="300" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.4"/>
+<text x="610.0" y="403" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#085041" text-anchor="middle">DC2</text>
+<text x="610.0" y="419" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#085041" text-anchor="middle">10.30.2.11:8084</text>
+<line x1="762" y1="406" x2="816" y2="406" stroke="#5F5E5A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="789" y="399" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#5F5E5A" text-anchor="middle">if down</text>
+<rect x="820" y="384" width="240" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4" stroke-dasharray="5 3"/>
+<text x="940" y="403" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3 standby</text>
+<text x="940" y="419" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.14:8084</text>
+<line x1="240" y1="312" x2="298" y2="476" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="454" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="481" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/analytics/</text>
+<line x1="420" y1="476" x2="456" y2="476" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="454" width="300" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/>
+<text x="610.0" y="473" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3</text>
+<text x="610.0" y="489" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.15:8085</text>
+<text x="940" y="481" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">runs only in DC3, no backup</text>
+<line x1="240" y1="312" x2="298" y2="546" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="300" y="524" width="120" height="44" rx="6" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="1.2"/>
+<text x="360" y="551" font-family="Consolas, Menlo, monospace" font-size="13" font-weight="600" fill="#2C2C2A" text-anchor="middle">/discovery/</text>
+<line x1="420" y1="546" x2="456" y2="546" stroke="#5F5E5A" stroke-width="1.2" marker-end="url(#arrow)"/>
+<rect x="460" y="524" width="300" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/>
+<text x="610.0" y="543" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#633806" text-anchor="middle">DC3</text>
+<text x="610.0" y="559" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="400" fill="#633806" text-anchor="middle">10.40.2.16:8500</text>
+<text x="940" y="551" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#5F5E5A" text-anchor="middle">runs only in DC3, no backup</text>
+<text x="40" y="612" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#2C2C2A" text-anchor="start">max_fails=3 fail_timeout=10s  ·  proxy_connect_timeout 2s  ·  proxy_next_upstream error timeout 502 503 504: a failed server is skipped within the same request.</text>
+<text x="40" y="634" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#2C2C2A" text-anchor="start">Every service image has a Docker HEALTHCHECK on /health every 10s.  Limits: gateway 256 MB / 0.50 CPU, services 128 MB / 0.25 CPU, db and cache stubs 64 MB / 0.10 CPU.</text>
+</svg>

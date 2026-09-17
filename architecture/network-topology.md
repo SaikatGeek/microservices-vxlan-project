@@ -3,6 +3,8 @@
 This page explains how the network is laid out, from the AWS VPC down to the
 container IPs, and why each choice was made.
 
+![Network topology](diagrams/network-topology.svg)
+
 ## Two layers
 
 There are two networks, one on top of the other.
